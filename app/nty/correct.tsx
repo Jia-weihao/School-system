@@ -437,7 +437,7 @@ const handleImportData = () => {
                   return;
                 }
                 
-                const response = await fetch(`http://localhost:3000/api/students/batch`, {
+                const response = await fetch(`http://47.76.85.140/api/students/batch`, {
                   method: 'POST',
                   headers: {
                     'Content-Type': 'application/json',
