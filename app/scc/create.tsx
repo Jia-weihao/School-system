@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import styles from './create.module.css';
-
+      import API_BASE_URL from '../tools/api';
 export default function CreateCourseSelection() {
   const router = useRouter();
   const [formData, setFormData] = useState({
@@ -117,8 +117,10 @@ export default function CreateCourseSelection() {
         description: formData.description
       };
       
+      // 导入API基础URL
+
       // 发送到后端API
-      const response = await fetch('https://school.blxg.asia/api/setting', {
+      const response = await fetch(`${API_BASE_URL}/api/setting`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

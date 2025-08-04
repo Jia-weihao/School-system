@@ -18,8 +18,12 @@ import ClassManagement from '../../components/ClassManagement';
 
 // nty的modify.tsx导入图片批改组件
 import Modify from '../nty/modify';
-// nty的correct.tsx导入组 件
+// nty的correct.tsx导入组件
 import Correct, { AnimatedNumber } from '../nty/correct';
+
+import Statistics from '../nty/Statistics'
+
+
 // mkh
 import SubjectConfig from '../mkh/subjectConfig';
 import SYearConfig from '../mkh/sYearConfig';
@@ -104,7 +108,7 @@ export default function Dashboard() {
       roles: ['principal', 'academic_director', 'academic_staff', 'teaching_director', 'teacher'],
       submenu: [
         { name: '学生成绩', roles: ['principal', 'academic_director', 'academic_staff', 'teaching_director', 'teacher'] },
-        { name: '学生违纪', roles: ['principal', 'academic_director', 'academic_staff', 'teaching_director', 'teacher'] },
+        { name: '作业统计', roles: ['principal', 'academic_director', 'academic_staff', 'teaching_director', 'teacher'] },
         { name: '学生状态', roles: ['principal', 'academic_director', 'academic_staff', 'teaching_director', 'teacher'] },
         { name: '学生作业批改', roles: ['principal', 'academic_director', 'academic_staff', 'teaching_director', 'teacher'] }
       ]
@@ -250,16 +254,11 @@ export default function Dashboard() {
 
         };
       //nty
-      case '学生违纪':
+      case '作业统计':
         return {
-          title: '学生违纪记录',
-          data: {
-            违纪总数: '23起',
-            轻微违纪: '18起',
-            严重违纪: '5起',
-            处理完成: '20起',
-            待处理: '3起',
-          },
+          title: '作业统计记录',
+          data: {},
+          AnimatedNumber:true,
         };
       //nty
       case '学生状态':
@@ -277,13 +276,7 @@ export default function Dashboard() {
       case '学生作业批改':
         return {
           title: '学生作业批改',
-          data: {
-            待批改作业: '156份',
-            已批改作业: '1,089份',
-            批改进度: '87.5%',
-            平均批改时间: '3.2分钟/份',
-            图片作业: '234份',
-          },
+          data: {},
           hasImageCorrection: true,
         };
         // mkh
@@ -476,7 +469,13 @@ export default function Dashboard() {
                 </div>
               )}
 
-              {/* 图片批改功能 */}
+              {/* nty学生成绩管理 */}
+              {contentData.AnimatedNumber && (
+                <div className={styles.imageCorrectionSection}>
+                  <h3>学生作业统计</h3>
+                  <Statistics />
+                </div>
+              )}
 
               {/* nty图片批改功能 */}
               {contentData.hasImageCorrection && (

@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import styles from './setting.module.css';
-
+  import API_BASE_URL from '../tools/api';
 // 定义设置数据类型
 interface Setting {
   _id: string;
@@ -45,14 +45,15 @@ export default function CourseSelectionSetting() {
   });
   const router = useRouter();
 
-  // API基础URL
-  const API_BASE_URL = 'https://school.blxg.asia/api/setting';
+  // 导入API基础URL
+
+  const API_SETTING_URL = `${API_BASE_URL}/api/setting`;
 
   // 获取所有设置
   const fetchSettings = async () => {
     try {
       setLoading(true);
-      const response = await fetch(API_BASE_URL);
+      const response = await fetch(API_SETTING_URL);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -73,7 +74,7 @@ export default function CourseSelectionSetting() {
   // 创建新设置
   const createSetting = async (settingData: Omit<Setting, '_id'>) => {
     try {
-      const response = await fetch(API_BASE_URL, {
+      const response = await fetch(API_SETTING_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -97,7 +98,7 @@ export default function CourseSelectionSetting() {
   // 更新设置
   const updateSetting = async (id: string, settingData: Partial<Setting>) => {
     try {
-      const response = await fetch(`${API_BASE_URL}/${id}`, {
+      const response = await fetch(`${API_SETTING_URL}/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -123,7 +124,7 @@ export default function CourseSelectionSetting() {
   // 删除设置
   const deleteSetting = async (id: string) => {
     try {
-      const response = await fetch(`${API_BASE_URL}/${id}`, {
+      const response = await fetch(`${API_SETTING_URL}/${id}`, {
         method: 'DELETE',
       });
       

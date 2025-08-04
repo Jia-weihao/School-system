@@ -4,6 +4,7 @@ import styles from './correct.module.css';
 // import { useAuth } from '../../context/AuthContext';
 import ButtonPermission from '../../components/ButtonPermission';
 import * as echarts from 'echarts';
+                import API_BASE_URL from '../tools/api';
 
 // 数字动画组件
 const AnimatedNumber = ({ value, duration = 2000, delay = 0 }: { value: string | number, duration?: number, delay?: number }) => {
@@ -437,7 +438,8 @@ const handleImportData = () => {
                   return;
                 }
                 
-                const response = await fetch(`https://school.blxg.asia/api/students/batch`, {
+
+                const response = await fetch(`${API_BASE_URL}/api/students/batch`, {
                   method: 'POST',
                   headers: {
                     'Content-Type': 'application/json',

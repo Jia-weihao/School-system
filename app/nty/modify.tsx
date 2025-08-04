@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
 import styles from './modify.module.css';
+import mammoth from 'mammoth';
 
 // 图片批改组件 
 const ImageCorrectionPanel = () => {
@@ -109,7 +110,6 @@ const ImageCorrectionPanel = () => {
 
     img.src = uploadedImage;
   };
-
 
   const rotateImage = () => {
     setRotation(prev => (prev + 90) % 360);
@@ -412,16 +412,299 @@ const ImageCorrectionPanel = () => {
   );
 };
 
-export default function Modify() {
+// Word文档批改组件
+const WordCorrectionPanel = () => {
+  const [uploadedDoc, setUploadedDoc] = useState<string | null>(null);
+  const [docContent, setDocContent] = useState<string>('');
+  const [comments, setComments] = useState<Array<{id: string, text: string, selectedText: string, position: number, timestamp: Date}>>([]);
+  const [selectedText, setSelectedText] = useState<string>('');
+  const [selectionRange, setSelectionRange] = useState<{start: number, end: number} | null>(null);
+  const [commentInput, setCommentInput] = useState<string>('');
+  const [showCommentInput, setShowCommentInput] = useState<boolean>(false);
+  const [score, setScore] = useState<number>(0);
+  const [feedback, setFeedback] = useState<string>('');
+  const docInputRef = useRef<HTMLInputElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+
+  const handleDocUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target?.files?.[0];
+    if (file && file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+      try {
+        const arrayBuffer = await file.arrayBuffer();
+        const result = await mammoth.convertToHtml({ arrayBuffer });
+        setDocContent(result.value);
+        setUploadedDoc(file.name);
+        setComments([]);
+        setScore(0);
+        setFeedback('');
+      } catch (error) {
+        console.error('Error reading Word document:', error);
+        alert('读取Word文档失败，请确保文件格式正确');
+      }
+    } else {
+      alert('请上传.docx格式的Word文档');
+    }
+  };
+
+  const handleTextSelection = () => {
+    const selection = window.getSelection();
+    if (selection && selection.toString().trim()) {
+      const selectedText = selection.toString();
+      const range = selection.getRangeAt(0);
+      const contentElement = contentRef.current;
+      
+      if (contentElement && contentElement.contains(range.commonAncestorContainer)) {
+        setSelectedText(selectedText);
+        setShowCommentInput(true);
+        
+        // 计算选中文本在内容中的位置
+        const textContent = contentElement.textContent || '';
+        const beforeText = range.startContainer.textContent?.substring(0, range.startOffset) || '';
+        const position = textContent.indexOf(beforeText) + beforeText.length;
+        setSelectionRange({ start: position, end: position + selectedText.length });
+      }
+    }
+  };
+
+  const addComment = () => {
+    if (commentInput.trim() && selectionRange) {
+      const newComment = {
+        id: Date.now().toString(),
+        text: commentInput,
+        selectedText: selectedText,
+        position: selectionRange.start,
+        timestamp: new Date()
+      };
+      setComments(prev => [...prev, newComment]);
+      setCommentInput('');
+      setShowCommentInput(false);
+      setSelectedText('');
+      setSelectionRange(null);
+    }
+  };
+
+  const removeComment = (commentId: string) => {
+    setComments(prev => prev.filter(comment => comment.id !== commentId));
+  };
+
+  const generateFeedback = () => {
+    // const wordCount = docContent.replace(/<[^>]*>/g, '').split(/\s+/).filter(word => word.length > 0).length;
+    let autoFeedback = ``;
+    
+    if (comments.length > 0) {
+      autoFeedback += `批改意见: ${comments.length}条\n\n`;
+      autoFeedback += '详细批改意见:\n';
+      autoFeedback += '=' .repeat(50) + '\n';
+      comments.forEach((comment, index) => {
+        autoFeedback += `${index + 1}. 选中文本: "${comment.selectedText}"\n`;
+        autoFeedback += `   批改建议: ${comment.text}\n`;
+        autoFeedback += `   批改时间: ${comment.timestamp.toLocaleString()}\n`;
+        autoFeedback += '-'.repeat(30) + '\n';
+      });
+    }
+    
+    if (score > 0) {
+      autoFeedback += `\n评分: ${score}/100分\n`;
+      if (score >= 90) autoFeedback += '评语: 优秀！';
+      else if (score >= 80) autoFeedback += '评语: 良好，还有提升空间。';
+      else if (score >= 70) autoFeedback += '评语: 中等，需要改进。';
+      else autoFeedback += '评语: 需要大幅改进。';
+    }
+    
+    setFeedback(autoFeedback);
+  };
+
+  const downloadFeedback = () => {
+    if (!feedback) {
+      generateFeedback();
+      return;
+    }
+    
+    const element = document.createElement('a');
+    const file = new Blob([feedback], { type: 'text/plain' });
+    element.href = URL.createObjectURL(file);
+    element.download = `${uploadedDoc || 'document'}_feedback.txt`;
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+  };
+
   return (
-    <div>
-      <div className={styles.imageCorrectionSection}>
-        <h3>图片作业批改</h3>
-        <ImageCorrectionPanel />
+    <div className={styles.wordCorrectionPanel}>
+      <div className={styles.toolBar}>
+        <input
+          type="file"
+          ref={docInputRef}
+          onChange={handleDocUpload}
+          accept=".docx"
+          style={{ display: 'none' }}
+        />
+        <button
+          onClick={() => docInputRef.current?.click()}
+          className={styles.toolButton}
+        >
+          📄 上传Word文档
+        </button>
+        
+        {uploadedDoc && (
+          <>
+            <div className={styles.scoreInput}>
+              <label>评分: </label>
+              <input
+                type="number"
+                min="0"
+                max="100"
+                value={score}
+                onChange={(e) => setScore(Number(e.target.value))}
+                className={styles.scoreField}
+              />
+              <span>/100</span>
+            </div>
+            
+            <button onClick={generateFeedback} className={styles.toolButton}>
+              📝 生成反馈
+            </button>
+            
+            <button onClick={downloadFeedback} className={styles.toolButton}>
+              💾 下载反馈
+            </button>
+          </>
+        )}
       </div>
+
+      <div className={styles.docContainer}>
+        {uploadedDoc ? (
+          <div className={styles.docContent}>
+            <div className={styles.docHeader}>
+              <h4>文档: {uploadedDoc}</h4>
+              <p>选中文本后可添加批改意见</p>
+            </div>
+            
+            <div 
+              ref={contentRef}
+              className={styles.docText}
+              dangerouslySetInnerHTML={{ __html: docContent }}
+              onMouseUp={handleTextSelection}
+            />
+            
+            {showCommentInput && (
+              <div className={styles.commentInputOverlay}>
+                <div className={styles.commentInputBox}>
+                  <p>选中文本: "{selectedText}"</p>
+                  <textarea
+                    value={commentInput}
+                    onChange={(e) => setCommentInput(e.target.value)}
+                    placeholder="输入批改意见..."
+                    className={styles.commentTextarea}
+                    autoFocus
+                  />
+                  <div className={styles.commentButtons}>
+                    <button onClick={addComment} className={styles.addCommentButton}>
+                      添加意见
+                    </button>
+                    <button 
+                      onClick={() => {
+                        setShowCommentInput(false);
+                        setSelectedText('');
+                        setCommentInput('');
+                      }} 
+                      className={styles.cancelCommentButton}
+                    >
+                      取消
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        ) : (
+          <div className={styles.uploadPrompt}>
+            <p>请上传Word文档开始批改</p>
+            <button
+              onClick={() => docInputRef.current?.click()}
+              className={styles.uploadButton}
+            >
+              选择Word文档
+            </button>
+          </div>
+        )}
+      </div>
+
+      {comments.length > 0 && (
+        <div className={styles.commentsPanel}>
+          <h4>批改意见 ({comments.length}条)</h4>
+          <div className={styles.commentsList}>
+            {comments.map((comment) => (
+              <div key={comment.id} className={styles.commentItem}>
+                <div className={styles.selectedTextQuote}>
+                  <strong>选中文本:</strong> "{comment.selectedText}"
+                </div>
+                <div className={styles.commentText}>
+                  <strong>批改建议:</strong> {comment.text}
+                </div>
+                <div className={styles.commentMeta}>
+                  <span className={styles.commentTime}>
+                    {comment.timestamp.toLocaleString()}
+                  </span>
+                  <button 
+                    onClick={() => removeComment(comment.id)}
+                    className={styles.removeCommentButton}
+                  >
+                    删除
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {feedback && (
+        <div className={styles.feedbackPanel}>
+          <h4>批改反馈</h4>
+          <pre className={styles.feedbackText}>{feedback}</pre>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default function Modify() {
+  const [activeTab, setActiveTab] = useState<'image' | 'word'>('image');
+
+  return (
+    <div className={styles.modifyContainer}>
+      <div className={styles.tabContainer}>
+        <button 
+          className={`${styles.tabButton} ${activeTab === 'image' ? styles.activeTab : ''}`}
+          onClick={() => setActiveTab('image')}
+        >
+          📷 图片作业批改
+        </button>
+        <button 
+          className={`${styles.tabButton} ${activeTab === 'word' ? styles.activeTab : ''}`}
+          onClick={() => setActiveTab('word')}
+        >
+          📄 Word文档批改
+        </button>
+      </div>
+
+      {activeTab === 'image' && (
+        <div className={styles.imageCorrectionSection}>
+          <h3>图片作业批改</h3>
+          <ImageCorrectionPanel />
+        </div>
+      )}
+
+      {activeTab === 'word' && (
+        <div className={styles.wordCorrectionSection}>
+          <h3>Word文档批改</h3>
+          <WordCorrectionPanel />
+        </div>
+      )}
     </div>
   );
 }
 
-// 导出ImageCorrectionPanel组件以便其他组件可以使用
-export { ImageCorrectionPanel };
+// 导出组件以便其他组件可以使用
+export { ImageCorrectionPanel, WordCorrectionPanel };

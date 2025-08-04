@@ -1,7 +1,8 @@
 // 学生成绩服务
 
-// API基础URL
-const API_URL = 'https://school.blxg.asia';
+// 导入API基础URL
+import API_BASE_URL from '../app/tools/api';
+const API_URL = API_BASE_URL;
 
 // 学生成绩接口
 export interface StudentGrade {
