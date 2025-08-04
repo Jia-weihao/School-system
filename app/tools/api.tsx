@@ -5,8 +5,6 @@ declare const process: {
     NODE_ENV: string;
   };
 };
-const API_BASE_URL = process.env.NODE_ENV === 'production'
-  ? 'https://school.blxg.asia'
-  : 'http://localhost:3000';
+const API_BASE_URL = "https://school.blxg.asia";
 
 export default API_BASE_URL;
