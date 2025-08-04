@@ -1,7 +1,7 @@
 // 学生成绩服务
 
 // API基础URL
-const API_URL = 'http://47.76.85.140';
+const API_URL = 'https://47.76.85.140';
 
 // 学生成绩接口
 export interface StudentGrade {

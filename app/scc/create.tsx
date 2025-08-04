@@ -118,7 +118,7 @@ export default function CreateCourseSelection() {
       };
       
       // 发送到后端API
-      const response = await fetch('http://47.76.85.140/api/setting', {
+      const response = await fetch('https://47.76.85.140/api/setting', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
