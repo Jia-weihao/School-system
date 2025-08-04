@@ -437,7 +437,7 @@ const handleImportData = () => {
                   return;
                 }
                 
-                const response = await fetch(`https://47.76.85.140/api/students/batch`, {
+                const response = await fetch(`https://school.blxg.asia/api/students/batch`, {
                   method: 'POST',
                   headers: {
                     'Content-Type': 'application/json',

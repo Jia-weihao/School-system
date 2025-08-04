@@ -46,7 +46,7 @@ export default function CourseSelectionSetting() {
   const router = useRouter();
 
   // API基础URL
-  const API_BASE_URL = 'https://47.76.85.140/api/setting';
+  const API_BASE_URL = 'https://school.blxg.asia/api/setting';
 
   // 获取所有设置
   const fetchSettings = async () => {
