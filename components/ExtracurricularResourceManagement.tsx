@@ -119,9 +119,9 @@ const ExtracurricularResourceManagement: React.FC = () => {
           key: item._id,
           id: (pagination.current - 1) * pagination.pageSize + index + 1,
           resourceName: item.name || '',
-          resourceType: item.mainTypeId?.name || '',
-          adminPermission: item.approvalStatusId?.name || '',
-          modifyTime: new Date(item.uploadDate || item.updatedAt || item.createdAt || new Date()).toLocaleString('zh-CN', {
+          resourceType: item.type?.name || '',
+          adminPermission: item.auditStatus?.name || '',
+          modifyTime: new Date(item.updatedAt || item.createdAt || new Date()).toLocaleString('zh-CN', {
             year: 'numeric',
             month: '2-digit',
             day: '2-digit',
