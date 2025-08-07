@@ -115,20 +115,20 @@ const ExtracurricularResourceManagement: React.FC = () => {
         console.log('解析的列表数据:', list);
         console.log('解析的分页数据:', paginationData);
 
-        const formattedData = list.map((item: ExtracurricularResourceData, index: number) => ({ 
+        const formattedData = list.map((item: ExtracurricularResource, index: number) => ({ 
           key: item._id,
           id: (pagination.current - 1) * pagination.pageSize + index + 1,
           resourceName: item.name || '',
-          resourceType: item.mainTypeId?.name || '',
-          adminPermission: item.approvalStatusId?.name || '',
-          modifyTime: new Date(item.uploadDate || item.updatedAt || item.createdAt || new Date()).toLocaleString('zh-CN', {
+          resourceType: item.type?.name || '',
+          adminPermission: item.auditStatus?.name || '',
+          modifyTime: new Date(item.updatedAt || item.createdAt || new Date()).toLocaleString('zh-CN', {
             year: 'numeric',
             month: '2-digit',
             day: '2-digit',
             hour: '2-digit',
             minute: '2-digit'
           }).replace(/\//g, '-'),
-          status: item.approvalStatusId?.name || '',
+          status: item.auditStatus?.name || '',
           _id: item._id,
           originalData: item
         }));
