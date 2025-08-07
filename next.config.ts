@@ -14,7 +14,8 @@ const nextConfig: NextConfig = {
     'rc-textarea',
     'rc-select',
     'rc-table',
-    'rc-motion'
+    'rc-motion',
+    'dayjs'
   ]
 };
 
