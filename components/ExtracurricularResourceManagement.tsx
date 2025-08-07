@@ -121,7 +121,7 @@ const ExtracurricularResourceManagement: React.FC = () => {
           resourceName: item.resourceName || item.name || '',
           resourceType: item.mainTypeId?.name || '',
           adminPermission: item.approvalStatusId?.name || '',
-          modifyTime: new Date(item.uploadDate || item.updatedAt || item.createdAt || new Date()).toLocaleString('zh-CN', {
+          modifyTime: new Date(item.updatedAt || item.createdAt || new Date()).toLocaleString('zh-CN', {
             year: 'numeric',
             month: '2-digit',
             day: '2-digit',
