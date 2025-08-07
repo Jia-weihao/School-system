@@ -1,0 +1,15 @@
+.container{
+  width: 95%;
+  height: 60vh;
+  background-color: white;
+  margin-left: 2%;
+  padding: 20px;
+}
+.title{
+  width: 95%;
+  height: 15vh;
+  background-color: white;
+  margin-left: 2%;
+  padding: 20px;
+  margin-bottom: 20px;
+}

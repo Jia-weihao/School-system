@@ -1,7 +1,8 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import  api  from "../app/tools/api";
+import axios from 'axios';
+import api from "../app/tools/api";
 
 // Define types
 export interface Permission {
@@ -38,9 +39,6 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 // API URL - 确保API地址正确
 const API_URL = api;
 
-// 检查当前环境，如果是开发环境且前端也运行在3000端口，则使用完整URL
-// 在实际部署时，可以使用相对路径或环境变量配置
-
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -65,24 +63,23 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         
         console.log("尝试验证令牌");
         
-        // Verify token and get user data
-        const response = await fetch(`${API_URL}/api/auth/me`, {
+        // Verify token and get user data using axios
+        const response = await axios.get(`${API_URL}/api/auth/me`, {
           headers: {
             'Authorization': `Bearer ${token}`
-          }
+          },
+          timeout: 10000
         });
 
-        if (response.ok) {
-          const data = await response.json();
-          console.log("用户验证成功:", data.user.email);
-          setUser(data.user);
-        } else {
-          // Token is invalid or expired
-          console.log("令牌无效或已过期");
-          localStorage.removeItem('token');
+        if (response.status === 200) {
+          console.log("用户验证成功:", response.data.user.email);
+          setUser(response.data.user);
         }
-      } catch (err) {
+      } catch (err: any) {
         console.error('认证状态检查错误:', err);
+        // Token is invalid or expired
+        console.log("令牌无效或已过期");
+        localStorage.removeItem('token');
       } finally {
         setLoading(false);
       }
@@ -100,53 +97,51 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       console.log("开始登录请求:", email);
       console.log("API URL:", `${API_URL}/api/auth/login`);
       
-      // 添加延迟，确保请求能够完成
-      await new Promise(resolve => setTimeout(resolve, 300));
-      
-      const response = await fetch(`${API_URL}/api/auth/login`, {
-        method: 'POST',
+      const response = await axios.post(`${API_URL}/api/auth/login`, {
+        email,
+        password
+      }, {
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
         },
-        body: JSON.stringify({ email, password }),
-        credentials: 'include'
+        timeout: 10000,
+        withCredentials: true
       });
 
       console.log("登录响应状态:", response.status);
-      
-      // 处理非200响应
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error("登录失败:", response.status, errorText);
-        try {
-          const errorData = JSON.parse(errorText);
-          setError(errorData.message || '登录失败');
-        } catch (e) {
-          setError(`登录失败 (${response.status})`);
-        }
-        setLoading(false);
-        return;
-      }
-      
-      const data = await response.json();
-      console.log("登录响应数据:", data);
+      console.log("登录响应数据:", response.data);
 
       // Store token in localStorage
-      localStorage.setItem('token', data.token);
+      if (response.data.token) {
+        localStorage.setItem('token', response.data.token);
+      }
       
       // 确保响应包含预期的用户数据结构
-      if (data.user && data.user.role) {
-        console.log("登录成功，设置用户状态:", data.user);
-        setUser(data.user);
+      if (response.data.user && response.data.user.role) {
+        console.log("登录成功，设置用户状态:", response.data.user);
+        setUser(response.data.user);
       } else {
-        console.error("用户数据格式不正确:", data);
+        console.error("用户数据格式不正确:", response.data);
         setError('用户数据格式不正确');
         localStorage.removeItem('token');
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error('登录错误:', err);
-      setError('登录失败，服务器可能不可用，请稍后重试');
+      
+      if (err.code === 'ECONNREFUSED' || err.code === 'ERR_NETWORK') {
+        setError(`无法连接到服务器，请确保后端服务正在运行 (${API_URL})`);
+      } else if (err.response) {
+        // 服务器响应了错误状态码
+        const errorMessage = err.response.data?.message || `登录失败 (${err.response.status})`;
+        setError(errorMessage);
+      } else if (err.request) {
+        // 请求已发出但没有收到响应
+        setError('登录失败，服务器可能不可用，请稍后重试');
+      } else {
+        // 其他错误
+        setError('登录失败，请稍后重试');
+      }
     } finally {
       setLoading(false);
     }
@@ -196,4 +191,4 @@ export const useAuth = (): AuthContextType => {
     throw new Error('useAuth must be used within an AuthProvider');
   }
   return context;
-}; 
+};

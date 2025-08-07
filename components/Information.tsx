@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styles from '../app/styles/information.module.css';
 import axios from 'axios';
-import  api  from '../app/tools/api';
+import api from '../app/tools/api';
 import { Button, Checkbox, Form, Input, Select, Upload } from 'antd';
 import type { GetProp, UploadFile, UploadProps } from 'antd';
 import type { FormProps } from 'antd';
@@ -140,15 +140,15 @@ export default function Information() {
                   <td>学校地址</td>
                   <td>{school.addrress}</td>
                 </tr>
-                <tr>
+                <tr key="contact-person">
                   <td>学校联系人</td>
                   <td>{school.person}</td>
                 </tr>
-                <tr>
+                <tr key="contact-phone">
                   <td>联系方式</td>
                   <td>{school.phone}</td>
                 </tr>
-                <tr>
+                <tr key="edit-button">
                   <td>
                     <button
                       style={{ padding: '10px 15px', borderRadius: '5px', backgroundColor: 'rgb(0, 0, 255)' }}

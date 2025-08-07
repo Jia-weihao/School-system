@@ -18,7 +18,8 @@
   --radius: 0.5rem;
 }
 
-@media (prefers-color-scheme: dark) {
+/* 暂时禁用暗色模式，因为它导致表单元素可读性问题 */
+  /* @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
@@ -36,7 +37,7 @@
     --input: #334155;
     --ring: #3b82f6;
   }
-}
+} */
 
 * {
   box-sizing: border-box;
@@ -97,6 +98,8 @@ input, textarea, select {
   font-family: inherit;
   outline: none;
   transition: all 0.2s ease;
+  color: var(--foreground);
+  background-color: var(--background);
 }
 
 /* 滚动条样式 */

@@ -90,27 +90,27 @@ export default function ResourceTablePanel() {
       key: 'action',
       width: 200,
       render: (_: any, record: any) => (
-                          <div className={styles.actionButton}>
-          <Button 
-            type="link" 
-            size="small" 
+        <div className={styles.actionButton}>
+          <Button
+            type="link"
+            size="small"
             onClick={() => handleDelete(record.id)}
             className={styles.deleteButton}
           >
             删除
           </Button>
-          <Button 
-            type="link" 
-            size="small" 
+          <Button
+            type="link"
+            size="small"
             onClick={() => handleView(record)}
             className={styles.viewButton}
           >
             查看{record.id === 1 && <ThunderboltOutlined style={{ marginLeft: 4 }} />}
           </Button>
           {record.status === '待审核' && (
-            <Button 
-              type="link" 
-              size="small" 
+            <Button
+              type="link"
+              size="small"
               onClick={() => handleApprove(record)}
               className={styles.approveButton}
             >
@@ -328,16 +328,16 @@ export default function ResourceTablePanel() {
           </div>
         </div>
 
-                <Table
+        <Table
           className={styles.resourceTable}
           columns={columns}
           dataSource={tableData.map((item, idx) => ({ ...item, key: item.id, index: idx + 1 }))}
-          pagination={{ 
-            total: 800, 
-            pageSize: 10, 
-            showSizeChanger: true, 
-            showQuickJumper: true, 
-            showTotal: (total) => `共${total}条` 
+          pagination={{
+            total: 800,
+            pageSize: 10,
+            showSizeChanger: true,
+            showQuickJumper: true,
+            showTotal: (total) => `共${total}条`
           }}
           rowKey="id"
           scroll={{ x: 1200 }}

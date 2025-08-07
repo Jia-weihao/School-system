@@ -95,12 +95,12 @@ export default function Teachers() {
 
       await getTeacherList(); // 刷新列表
       if (teacherList.length === 1 && pageNum > 1) {
-      setPageNum(1);
-      // 重新请求第一页数据
-      setTimeout(() => {
-        getTeacherList();
-      }, 0);
-    }
+        setPageNum(1);
+        // 重新请求第一页数据
+        setTimeout(() => {
+          getTeacherList();
+        }, 0);
+      }
     } catch (error) {
       messageApi.error('删除教师失败');
       console.error('删除教师失败:', error);
@@ -198,56 +198,56 @@ export default function Teachers() {
       authorization: 'authorization-text',
     },
     onChange(info) {
-    if (info.file.status === 'uploading') {
-      setLoading(true);
-    }
-    if (info.file.status === 'done') {
-      // 判断后端实际返回的成功标志
-      if (info.file.response?.code === 200) { // 或你使用的成功状态码
-        messageApi.info('导入成功');
-        getTeacherList()
-        // 执行成功回调（如刷新列表等）
-      } else {
-        // 虽然HTTP状态是200，但业务逻辑失败
-        message.error(info.file.response?.msg || '处理失败');
-        info.file.status = 'error'; // 手动标记为错误状态
+      if (info.file.status === 'uploading') {
+        setLoading(true);
       }
-      setLoading(false);
-    } else if (info.file.status === 'error') {
-      message.error(
-        info.file.response?.msg || 
-        info.file.error?.message || 
-        '上传失败'
-      );
-      setLoading(false);
-    }
-  },
+      if (info.file.status === 'done') {
+        // 判断后端实际返回的成功标志
+        if (info.file.response?.code === 200) { // 或你使用的成功状态码
+          messageApi.info('导入成功');
+          getTeacherList()
+          // 执行成功回调（如刷新列表等）
+        } else {
+          // 虽然HTTP状态是200，但业务逻辑失败
+          message.error(info.file.response?.msg || '处理失败');
+          info.file.status = 'error'; // 手动标记为错误状态
+        }
+        setLoading(false);
+      } else if (info.file.status === 'error') {
+        message.error(
+          info.file.response?.msg ||
+          info.file.error?.message ||
+          '上传失败'
+        );
+        setLoading(false);
+      }
+    },
     beforeUpload: async (file) => {
-    const data = await file.arrayBuffer();
-    const workbook = XLSX.read(data, { type: 'array' });
-    const sheetName = workbook.SheetNames[0];
-    const sheet = workbook.Sheets[sheetName];
-    const excelData = XLSX.utils.sheet_to_json(sheet);
+      const data = await file.arrayBuffer();
+      const workbook = XLSX.read(data, { type: 'array' });
+      const sheetName = workbook.SheetNames[0];
+      const sheet = workbook.Sheets[sheetName];
+      const excelData = XLSX.utils.sheet_to_json(sheet);
 
-    // 获取所有身份证号
-    const cardNums = excelData.map((item: any) => item['证件号码']);
-    // 检查重复
-    const hasDuplicate = cardNums.length !== new Set(cardNums).size;
-    if (hasDuplicate) {
+      // 获取所有身份证号
+      const cardNums = excelData.map((item: any) => item['证件号码']);
+      // 检查重复
+      const hasDuplicate = cardNums.length !== new Set(cardNums).size;
+      if (hasDuplicate) {
         messageApi.info("excel身份证号重复，无法导入！请检查后再导入！");
-      return Upload.LIST_IGNORE;
-    }
+        return Upload.LIST_IGNORE;
+      }
 
       const existRes = await axios.post(`${api}/api/teacher/checkCardNums`, { cardNums });
-// 类型断言，假设后端返回 { existNums: string[] }
-const existNums = (existRes.data as { existNums: string[] }).existNums;
-if (existNums && existNums.length > 0) {
-  messageApi.info("数据库中身份证号已经存在，无法导入！请检查后再导入！");
-  return Upload.LIST_IGNORE;
-}
+      // 类型断言，假设后端返回 { existNums: string[] }
+      const existNums = (existRes.data as { existNums: string[] }).existNums;
+      if (existNums && existNums.length > 0) {
+        messageApi.info("数据库中身份证号已经存在，无法导入！请检查后再导入！");
+        return Upload.LIST_IGNORE;
+      }
 
-    return true;
-  },
+      return true;
+    },
   };
   const items: MenuProps['items'] = [
     {
@@ -338,11 +338,11 @@ if (existNums && existNums.length > 0) {
         </Button>
       </div>
       <Spin
-  spinning={loading}
-  tip="数据加载中，请稍候..."
-  size="large"
-  className={styles.spin}
->
+        spinning={loading}
+        tip="数据加载中，请稍候..."
+        size="large"
+        className={styles.spin}
+      >
         <table border={1} cellSpacing={0} className={styles.table}>
           <thead>
             <tr>
@@ -361,7 +361,7 @@ if (existNums && existNums.length > 0) {
           </thead>
           <tbody>
             {teacherList.map((item, index) => (
-              <tr key={index}>
+              <tr key={item._id}>
                 <td>{index + 1}</td>
                 <td>{item.name}</td>
                 <td>{item.sex}</td>

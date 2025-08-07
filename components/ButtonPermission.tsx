@@ -21,15 +21,15 @@ const ButtonPermission = ({
   ...props
 }: ButtonPermissionProps) => {
   const { hasPermission } = useAuth();
-  
+
   // Check if user has the required permission
   const allowed = hasPermission(resource, action);
-  
+
   // If user has no permission and hideIfNoPermission is true, don't render
   if (!allowed && hideIfNoPermission) {
     return null;
   }
-  
+
   // Render disabled button if not allowed
   return (
     <button

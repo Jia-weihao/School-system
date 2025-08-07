@@ -43,6 +43,14 @@ export default function CourseSelectionSetting() {
     target: '',
     time: ''
   });
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [newTaskForm, setNewTaskForm] = useState<EditFormData>({
+    name: '',
+    academicYear: '2021-2022学年',
+    semester: '2021-2022第一学期',
+    target: '',
+    time: ''
+  });
   const router = useRouter();
 
   // 导入API基础URL
@@ -198,8 +206,61 @@ export default function CourseSelectionSetting() {
 
   // 新增任务
   const handleNewTask = () => {
-    // 导航到创建新任务的页面
-    router.push('/scc/create');
+    setShowAddModal(true);
+    setNewTaskForm({
+      name: '',
+      academicYear: '2021-2022学年',
+      semester: '2021-2022第一学期',
+      target: '',
+      time: ''
+    });
+  };
+
+  // 关闭新增任务模态框
+  const handleCloseAddModal = () => {
+    setShowAddModal(false);
+    setNewTaskForm({
+      name: '',
+      academicYear: '2021-2022学年',
+      semester: '2021-2022第一学期',
+      target: '',
+      time: ''
+    });
+  };
+
+  // 处理新任务表单变化
+  const handleNewTaskFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setNewTaskForm(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  // 提交新任务
+  const handleSubmitNewTask = async () => {
+    if (!newTaskForm.name.trim() || !newTaskForm.target.trim() || !newTaskForm.time.trim()) {
+      alert('请填写完整的任务信息');
+      return;
+    }
+
+    try {
+      const newSetting = {
+        name: newTaskForm.name,
+        academicYear: newTaskForm.academicYear,
+        semester: newTaskForm.semester,
+        target: newTaskForm.target,
+        time: newTaskForm.time,
+        status: 0 // 默认状态为"未发布"
+      };
+
+      await createSetting(newSetting);
+      handleCloseAddModal();
+      alert('任务创建成功！');
+    } catch (err) {
+      console.error('创建任务失败:', err);
+      alert('创建任务失败，请重试');
+    }
   };
 
   // 开始编辑任务
@@ -651,6 +712,100 @@ export default function CourseSelectionSetting() {
           </button>
         </div>
       </div>
+
+      {/* 新增任务模态框 */}
+      {showAddModal && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modalContent}>
+            <div className={styles.modalHeader}>
+              <h2>新增选课任务</h2>
+              <button className={styles.closeBtn} onClick={handleCloseAddModal}>
+                ×
+              </button>
+            </div>
+            
+            <div className={styles.modalBody}>
+              <div className={styles.formGroup}>
+                <label>任务名称 *</label>
+                <input
+                  type="text"
+                  name="name"
+                  value={newTaskForm.name}
+                  onChange={handleNewTaskFormChange}
+                  placeholder="请输入任务名称"
+                  className={styles.formInput}
+                />
+              </div>
+
+              <div className={styles.formGroup}>
+                <label>学年</label>
+                <select
+                  name="academicYear"
+                  value={newTaskForm.academicYear}
+                  onChange={handleNewTaskFormChange}
+                  className={styles.formSelect}
+                >
+                  {academicYearOptions.map(option => (
+                    <option key={option} value={option}>{option}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div className={styles.formGroup}>
+                <label>学期</label>
+                <select
+                  name="semester"
+                  value={newTaskForm.semester}
+                  onChange={handleNewTaskFormChange}
+                  className={styles.formSelect}
+                >
+                  {semesterOptions.filter(option => option !== '全部').map(option => (
+                    <option key={option} value={option}>{option}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div className={styles.formGroup}>
+                <label>选课对象 *</label>
+                <input
+                  type="text"
+                  name="target"
+                  value={newTaskForm.target}
+                  onChange={handleNewTaskFormChange}
+                  placeholder="例如：一班、三班、六班"
+                  className={styles.formInput}
+                />
+              </div>
+
+              <div className={styles.formGroup}>
+                <label>选课时间 *</label>
+                <input
+                  type="datetime-local"
+                  name="time"
+                  value={newTaskForm.time}
+                  onChange={handleNewTaskFormChange}
+                  className={styles.formInput}
+                />
+              </div>
+            </div>
+
+            <div className={styles.modalFooter}>
+              <button 
+                className={styles.cancelBtn} 
+                onClick={handleCloseAddModal}
+              >
+                取消
+              </button>
+              <button 
+                className={styles.confirmBtn} 
+                onClick={handleSubmitNewTask}
+              >
+                确认添加
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

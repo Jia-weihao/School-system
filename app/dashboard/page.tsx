@@ -6,6 +6,8 @@ import BigScreenDashboard from './BigScreenDashboard';
 import LoginForm from '../../components/LoginForm';
 import { useAuth } from '../../context/AuthContext';
 import CourseSelectionSetting from '../scc/setting';
+import CreateCourse from '../scc/create';
+import Fenban from '../sccfb/fenban';
 
 
 import ResourceManagement from '../../components/ResourceManagement';
@@ -20,7 +22,7 @@ import ClassManagement from '../../components/ClassManagement';
 import Modify from '../nty/modify';
 // nty的correct.tsx导入组件
 import Correct, { AnimatedNumber } from '../nty/correct';
-
+import State from '../nty/state'
 import Statistics from '../nty/Statistics'
 
 
@@ -28,7 +30,6 @@ import Statistics from '../nty/Statistics'
 import SubjectConfig from '../mkh/subjectConfig';
 import SYearConfig from '../mkh/sYearConfig';
 import LessonConfig from '../mkh/lessonConfig';
-import TextbookConfig from '../mkh/textbookConfig';
 
 
 export default function Dashboard() {
@@ -80,26 +81,15 @@ export default function Dashboard() {
         { name: '资源类型管理', roles: ['principal', 'academic_director', 'academic_staff', 'teaching_director', 'teacher'] }
       ]
     },
-    //scc
-    {
-      name: '排课管理',
-      icon: '📅',
-      roles: ['principal', 'academic_director', 'academic_staff', 'teacher']
-    },
     {
       name: '走班排课',
       icon: '🚶‍♂️',
       roles: ['principal', 'academic_director', 'academic_staff', 'teaching_director'],
-      submenu: [
-        { name: '选课设置', roles: ['principal', 'academic_director', 'academin_staff', 'teaching_director', 'teacher'] },
-        { name: '智能分班', roles: ['principal', 'academic_director', 'academin_staff', 'teaching_director', 'teacher'] },
-        { name: '走班排课', roles: ['principal', 'academic_director', 'academin_staff', 'teaching_director', 'teacher'] }
+      submenu:[
+        {name:'选课设置',roles:['principal','academic_director','academic_staff','teaching_director','teacher']},
+        {name:'智能分班',roles:['principal','academic_director','academic_staff','teaching_director','teacher']},
+        {name:'走班排课',roles:['principal','academic_director','academic_staff','teaching_director','teacher']}
       ]
-    },
-    {
-      name: '数据管理',
-      icon: '📊',
-      roles: ['principal', 'academic_director', 'academic_staff', 'teaching_director', 'teacher'],
     },
     //nty
     {
@@ -120,7 +110,6 @@ export default function Dashboard() {
       submenu: [
         { name: '学年学科配置', roles: ['principal'] },
         { name: '学年学期配置', roles: ['principal'] },
-        { name: '教材管理配置', roles: ['principal'] },
         { name: '教案模板配置', roles: ['principal'] },
       ],
     },
@@ -168,13 +157,6 @@ export default function Dashboard() {
       case '学生管理':
         return {
           title: '学生学籍信息',
-          data: {
-            学校名称: '新宇通测试学校',
-            类型: '民办',
-            学校地址: '山西省晋中市榆次区 XXXX路XXX号',
-            学校联系人: '王老师',
-            联系方式: '18780907868',
-          },
           content: <Student />,
         };
       //贾维浩
@@ -195,18 +177,12 @@ export default function Dashboard() {
         return {
           title: '班级信息管理',
           content: <ClassManagement />,
-        };     
+        };
         //许宇航
       case '教学资源管理':
         return {
           title: '教学资源管理',
-          data: {
-            '资源总数': '1,234个',
-            '课件数量': '456个',
-            '视频数量': '234个',
-            '文档数量': '544个',
-            '总下载量': '15,678次'
-          },
+          data: {},
           hasResourceManagement: true,
           resourceType: 'teaching' as const
         };
@@ -214,13 +190,7 @@ export default function Dashboard() {
       case '课外资源管理':
         return {
           title: '课外资源管理',
-          data: {
-            '活动总数': '89个',
-            '进行中活动': '23个',
-            '已完成活动': '45个',
-            '即将开始': '21个',
-            '参与人数': '1,567人'
-          },
+          data: {},
           hasResourceManagement: true,
           resourceType: 'extracurricular' as const
         };
@@ -228,13 +198,7 @@ export default function Dashboard() {
       case '资源类型管理':
         return {
           title: '资源类型管理',
-          data: {
-            '类型总数': '15个',
-            '教学类型': '8个',
-            '活动类型': '4个',
-            '媒体类型': '3个',
-            '资源总数': '2,345个'
-          },
+          data: {},
           hasResourceManagement: true,
           resourceType: 'type' as const
         };
@@ -242,13 +206,7 @@ export default function Dashboard() {
       case '学生成绩':
         return {
           title: '学生成绩管理',
-          data: {
-            '总学生数': '1,245人',
-            '平均分': '85.6分',
-            '优秀率': '78.5%',
-            '及格率': '96.2%',
-            '最高分': '98分'
-          },
+          data: {},
           hasImportExport: true,
           isGradesList: true,
 
@@ -264,13 +222,8 @@ export default function Dashboard() {
       case '学生状态':
         return {
           title: '学生状态管理',
-          data: {
-            在校学生: '1,245人',
-            请假学生: '12人',
-            转学学生: '3人',
-            休学学生: '2人',
-            出勤率: '98.8%',
-          },
+          data: {},
+          studentState:true,
         };
       //nty
       case '学生作业批改':
@@ -279,7 +232,7 @@ export default function Dashboard() {
           data: {},
           hasImageCorrection: true,
         };
-        // mkh
+      // mkh
       case '学年学科配置':
         return {
           title: '学年学科配置',
@@ -297,12 +250,6 @@ export default function Dashboard() {
           title: '教案模板配置',
           data: {},
           content: <LessonConfig />,
-        };
-      case '教材管理配置':
-        return {
-          title: '教材管理配置',
-          data: {},
-          content: <TextbookConfig />,
         };
       default:
         return {
@@ -443,7 +390,12 @@ export default function Dashboard() {
             <BigScreenDashboard />
           ) : activeSubmenu === '走班排课' ? (
             <CourseSelectionSetting />
-          ) : (
+          ) : activeSubmenu === '选课设置' ? (
+            <CreateCourse />
+          ) :activeSubmenu === '智能分班' ? (
+            <Fenban />
+          )
+           : (
             <div className={styles.contentPanel}>
               {/* 贾维浩数据展示区域 */}
               {contentData.data && (
@@ -474,6 +426,14 @@ export default function Dashboard() {
                 <div className={styles.imageCorrectionSection}>
                   <h3>学生作业统计</h3>
                   <Statistics />
+                </div>
+              )}
+
+              {/* nty学生状态管理 */}
+              {contentData.studentState && (
+                <div className={styles.imageCorrectionSection}>
+                  <h3>学生状态统计</h3>
+                  <State />
                 </div>
               )}
 

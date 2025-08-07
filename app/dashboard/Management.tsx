@@ -22,15 +22,6 @@ const Management = () => {
     { id: 10, name: '我上学了第一课', type: '课件', size: '5.2MB', uploadDate: '2022-06-02', downloads: 234, checked: false }
   ];
 
-  // 统计卡片数据
-  const statsData = [
-    { title: '资源总数', value: '1,234个', color: '#1890ff' },
-    { title: '课件数量', value: '456个', color: '#52c41a' },
-    { title: '视频数量', value: '234个', color: '#faad14' },
-    { title: '文档数量', value: '544个', color: '#f5222d' },
-    { title: '总下载量', value: '15,678次', color: '#722ed1' }
-  ];
-
   const columns = [
     {
       title: '序号',
@@ -58,25 +49,8 @@ const Management = () => {
     }
   ];
 
-  // 添加了资源统计卡片组件
-  const StatsCard = ({ title, value, color }: { title: string; value: string; color: string }) => (
-    <Card style={{ background: color, color: 'white', borderRadius: 8 }}>
-      <div style={{ fontSize: 16, fontWeight: 'bold' }}>{title}</div>
-      <div style={{ fontSize: 24, marginTop: 8 }}>{value}</div>
-    </Card>
-  );
-
   return (
     <div style={{ padding: '20px' }}>
-      {/* 资源统计卡片区域 */}
-      <Row gutter={16} style={{ marginBottom: 20 }}>
-        {statsData.map((stat, index) => (
-          <Col span={4} key={index}>
-            <StatsCard title={stat.title} value={stat.value} color={stat.color} />
-          </Col>
-        ))}
-      </Row>
-
       {/* 搜索和操作区域 */}
       <div style={{ 
         background: '#fff', 

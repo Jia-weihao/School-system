@@ -9,7 +9,7 @@ import { saveAs } from 'file-saver';
 import { Dropdown, Menu } from 'antd';
 import type { MenuProps } from 'antd';
 import type { UploadProps } from 'antd';
-import  api  from "../app/tools/api"
+import api from "../app/tools/api"
 type Student = {
     name: string;
     sex: string;
@@ -351,7 +351,7 @@ export default function Student() {
                     </thead>
                     <tbody>
                         {studentList.map((item, index) => (
-                            <tr key={index}>
+                            <tr key={item._id}>
                                 <td>{index + 1}</td>
                                 <td>{item.name}</td>
                                 <td>{item.sex}</td>
@@ -416,17 +416,17 @@ export default function Student() {
                     <Form.Item label='证件号码' name='cardNum' rules={[{ required: true, message: '请输入证件号码' }]}>
                         <Input />
                     </Form.Item>
-                    <Form.Item label='学校' name='school' rules={[{ required: true, message: '请输入学校' }]}> 
-                        <Input /> 
-                    </Form.Item> 
-                    <Form.Item label='年级' name='grade' rules={[{ required: true, message: '请选择年级' }]}> 
-                        <Select style={{ width: 150 }}> 
-                            <Select.Option value='全部'>全部</Select.Option> 
-                            <Select.Option value='一年级'>一年级</Select.Option>    
-                            <Select.Option value='二年级'>二年级</Select.Option> 
-                            <Select.Option value='三年级'>三年级</Select.Option> 
-                            <Select.Option value='四年级'>四年级</Select.Option> 
-                        </Select> 
+                    <Form.Item label='学校' name='school' rules={[{ required: true, message: '请输入学校' }]}>
+                        <Input />
+                    </Form.Item>
+                    <Form.Item label='年级' name='grade' rules={[{ required: true, message: '请选择年级' }]}>
+                        <Select style={{ width: 150 }}>
+                            <Select.Option value='全部'>全部</Select.Option>
+                            <Select.Option value='一年级'>一年级</Select.Option>
+                            <Select.Option value='二年级'>二年级</Select.Option>
+                            <Select.Option value='三年级'>三年级</Select.Option>
+                            <Select.Option value='四年级'>四年级</Select.Option>
+                        </Select>
                     </Form.Item>
                     <Form.Item label='班级' name='className' rules={[{ required: true, message: '请输入班级' }]}>
                         <Select style={{ width: 150 }}>
