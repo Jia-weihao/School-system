@@ -1,0 +1,304 @@
+
+/* 学生状态页面样式 */
+.statsCards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.statCard {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease;
+}
+
+.statCard:hover {
+  transform: translateY(-2px);
+}
+
+.statTitle {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 8px;
+}
+
+.statValue {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 4px;
+}
+
+.statPercent {
+  font-size: 12px;
+  color: #999;
+}
+
+.chartSection {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  margin-bottom: 30px;
+}
+
+.filterSection {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.filterGroup {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.filterGroup label {
+  font-weight: 600;
+  color: #333;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.filterSelect {
+  padding: 8px 12px;
+  border: 2px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 14px;
+  background: white;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.filterSelect:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.searchInput {
+  padding: 8px 12px;
+  border: 2px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 14px;
+  background: white;
+  transition: border-color 0.2s ease;
+  min-width: 200px;
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.studentList {
+  display: grid;
+  gap: 20px;
+}
+
+.studentCard {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.studentCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.studentHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.studentName {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+}
+
+.studentScore {
+  font-size: 16px;
+  font-weight: 600;
+  color: #4a6cf7;
+}
+
+.studentInfo {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.statusBadge {
+  padding: 4px 12px;
+  border-radius: 20px;
+  color: white;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.riskBadge {
+  padding: 4px 12px;
+  border-radius: 20px;
+  color: white;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.improvement {
+  font-size: 14px;
+  color: #666;
+  font-weight: 500;
+}
+
+.subjectInfo {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.subjectLabel {
+  font-weight: 600;
+  color: #333;
+  font-size: 14px;
+}
+
+.weakSubjects {
+  color: #f5222d;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.strongSubjects {
+  color: #52c41a;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.recommendations {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+}
+
+.recommendationTitle {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.recommendationList {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.recommendationList li {
+  margin-bottom: 4px;
+  color: #666;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.noData {
+  text-align: center;
+  padding: 40px;
+  color: #999;
+  font-size: 16px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.loading {
+  text-align: center;
+  padding: 40px;
+  font-size: 16px;
+  color: #666;
+}
+
+.error {
+  text-align: center;
+  padding: 40px;
+  font-size: 16px;
+  color: #f5222d;
+  background: #fff2f0;
+  border: 1px solid #ffccc7;
+  border-radius: 8px;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .statsCards {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+  }
+  
+  .filterSection {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 15px;
+  }
+  
+  .filterGroup {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 5px;
+  }
+  
+  .searchInput {
+    min-width: auto;
+  }
+  
+  .studentHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .studentInfo {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 15px;
+  }
+  
+  .statsCards {
+    grid-template-columns: 1fr;
+  }
+  
+  .statCard {
+    padding: 15px;
+  }
+  
+  .studentCard {
+    padding: 15px;
+  }
+  
+  .chartSection {
+    padding: 15px;
+  }
+}

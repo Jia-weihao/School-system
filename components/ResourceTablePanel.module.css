@@ -1,0 +1,49 @@
+.resourceTable :global(.ant-table-row-selected) {
+  background-color: #e6f7ff !important;
+}
+
+.resourceTable :global(.ant-table-row-selected:hover) {
+  background-color: #bae7ff !important;
+}
+
+.searchPanel {
+  background: #f5f5f5;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 16px;
+}
+
+.tablePanel {
+  background: #fff;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.headerRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 8px;
+}
+
+.actionButton {
+  display: flex;
+  gap: 8px;
+}
+
+.deleteButton {
+  color: #ff4d4f;
+}
+
+.approveButton {
+  color: #52c41a;
+}
+
+.viewButton {
+  color: #1890ff;
+} 
