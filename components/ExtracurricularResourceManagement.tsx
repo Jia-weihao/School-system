@@ -118,10 +118,10 @@ const ExtracurricularResourceManagement: React.FC = () => {
         const formattedData = list.map((item: ExtracurricularResource, index: number) => ({
           key: item._id,
           id: (pagination.current - 1) * pagination.pageSize + index + 1,
-          resourceName: item.resourceName || item.name || '',
+          resourceName: item.name || '',
           resourceType: item.mainTypeId?.name || '',
           adminPermission: item.approvalStatusId?.name || '',
-          modifyTime: new Date(item.updatedAt || item.createdAt || new Date()).toLocaleString('zh-CN', {
+          modifyTime: new Date(item.uploadDate || item.updatedAt || item.createdAt || new Date()).toLocaleString('zh-CN', {
             year: 'numeric',
             month: '2-digit',
             day: '2-digit',
@@ -218,7 +218,6 @@ const ExtracurricularResourceManagement: React.FC = () => {
       // 创建符合API期望格式的数据对象
       const resourceData: CreateExtracurricularResourceData = {
         name: values.resourceName,
-        resourceName: values.resourceName,
         description: values.resourceIntro || values.description || '',
         typeId: values.resourceType,
         gradeId: values.grade || '',
