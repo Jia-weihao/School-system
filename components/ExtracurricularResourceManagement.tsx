@@ -128,7 +128,7 @@ const ExtracurricularResourceManagement: React.FC = () => {
             hour: '2-digit',
             minute: '2-digit'
           }).replace(/\//g, '-'),
-          status: item.approvalStatusId?.name || '',
+          status: item.auditStatus?.name || '',
           _id: item._id,
           originalData: item
         }));
