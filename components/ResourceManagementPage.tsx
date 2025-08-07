@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { Card, Form, Button, Modal, message } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import ResourceSearchForm from './ResourceSearchForm';
-import ResourceTable from './ResourceTable';
+// import ResourceTable from './ResourceTable';
 import FileUpload from './FileUpload';
 import {
     createTeachingResource,
