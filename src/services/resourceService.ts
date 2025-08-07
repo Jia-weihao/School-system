@@ -167,6 +167,7 @@ export interface TeachingResource {
 export interface ExtracurricularResource {
   _id: string;
   name: string;
+  resourceName: string;
   description: string;
   type: ResourceType;
   grade: Grade;
@@ -179,6 +180,8 @@ export interface ExtracurricularResource {
   createdAt: string;
   updatedAt: string;
   createdBy: string;
+  mainTypeId?: { _id: string; name: string; description?: string };
+  approvalStatusId?: { _id: string; name: string; description?: string };
 }
 
 export interface CreateTeachingResourceData {
@@ -197,6 +200,7 @@ export interface CreateTeachingResourceData {
 
 export interface CreateExtracurricularResourceData {
   name: string;
+  resourceName: string;
   description?: string;
   typeId: string;
   gradeId?: string;
