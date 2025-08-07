@@ -218,6 +218,7 @@ const ExtracurricularResourceManagement: React.FC = () => {
       // 创建符合API期望格式的数据对象
       const resourceData: CreateExtracurricularResourceData = {
         name: values.resourceName,
+        resourceName: values.resourceName,
         description: values.resourceIntro || values.description || '',
         typeId: values.resourceType,
         gradeId: values.grade || '',
