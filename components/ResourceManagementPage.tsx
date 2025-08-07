@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { Card, Form, Button, Modal, message } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import ResourceSearchForm from './ResourceSearchForm';
-import ResourceTablePanel from './ResourceTablePanel';
+import ResourceTable from './ResourceTable';
 import FileUpload from './FileUpload';
 import {
     createTeachingResource,
@@ -149,8 +149,12 @@ const ResourceManagementPage: React.FC<ResourceManagementPageProps> = ({
                 }
             >
                 {/* 资源表格 */}
-                <ResourceTablePanel />
-                {/* 注意：ResourceTablePanel组件当前不支持type、searchParams、onEdit和onView属性，需要进一步修改该组件以适配需求 */}
+                <ResourceTable
+                    type={type}
+                    searchParams={searchParams}
+                    onEdit={handleEdit}
+                    onView={handleView}
+                />
             </Card>
 
             {/* 编辑模态框 */}
