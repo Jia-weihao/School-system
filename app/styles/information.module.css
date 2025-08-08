@@ -1,0 +1,28 @@
+.container{
+    width: 95%;
+    height: 80vh;
+    background-color: white;
+    border-radius:15px;
+    margin:10px auto;
+    display:flex;
+    color:black;
+    padding: 20px;
+    box-sizing: border-box;
+}
+.left{
+    width: 50%;
+}
+.right{
+    width: 50%;
+}
+.table{
+    width: 300px;
+    line-height: 50px;
+}
+.edit_left{
+    width: 70%;
+    
+}
+.edit_right{
+    width: 30%;
+}
