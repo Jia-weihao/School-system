@@ -351,7 +351,7 @@ export default function Student() {
                     </thead>
                     <tbody>
                         {studentList.map((item, index) => (
-                            <tr key={item._id}>
+                            <tr key={index}>
                                 <td>{index + 1}</td>
                                 <td>{item.name}</td>
                                 <td>{item.sex}</td>
@@ -379,15 +379,16 @@ export default function Student() {
                     </tbody>
                 </table>
             </Spin>
-            <Pagination
-                style={{ position: 'absolute', bottom: 0, right: '50%' }}
-                defaultCurrent={pageNum}
-                total={total}
-                onChange={(page, pageSize) => {
-                    setPageNum(page); // 更新页码
-                    setPageSize(pageSize); // 更新每页条数
-                }}
-            />
+            <div style={{ display: 'flex', justifyContent: 'center', marginTop: 16 }}>
+                <Pagination
+                    defaultCurrent={pageNum}
+                    total={total}
+                    onChange={(page, pageSize) => {
+                        setPageNum(page); // 更新页码
+                        setPageSize(pageSize); // 更新每页条数
+                    }}
+                />
+            </div>
             <Modal
                 title='新增教师'
                 open={isModalOpen}

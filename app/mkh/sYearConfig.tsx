@@ -298,9 +298,9 @@ export default function SYearConfig() {
                       </div>
                       <span style={{ fontWeight: '500' }}>{year.yearName}</span>
                     </div>
-                    <div style={{ flex: '2', textAlign: 'center', color: '#666' }}>
-                      {year.startDate && year.endDate ? `${formatDate(year.startDate)} - ${formatDate(year.endDate)}` : ''}
-                    </div>
+                    <div style={{ flex: '2', textAlign: 'center', color: '#1f2937' }}>
+                        {year.startDate && year.endDate ? `${formatDate(year.startDate)} - ${formatDate(year.endDate)}` : ''}
+                      </div>
                     <div style={{ flex: '1', textAlign: 'center' }}>
                       <Button type="link" style={{ color: '#1890FF', padding: '0 5px' }} onClick={() => handleEdit(year)}>编辑</Button>
                       <Popconfirm
@@ -327,8 +327,8 @@ export default function SYearConfig() {
                         backgroundColor: '#FAFAFA'
                       }}
                     >
-                      <div style={{ flex: '2', paddingLeft: '10px', color: '#666' }}>{term.termName}</div>
-                      <div style={{ flex: '2', textAlign: 'center', color: '#666' }}>
+                      <div style={{ flex: '2', paddingLeft: '10px', color: '#1f2937' }}>{term.termName}</div>
+                      <div style={{ flex: '2', textAlign: 'center', color: '#1f2937' }}>
                         {term.startDate && term.endDate ? `${formatDate(term.startDate)} - ${formatDate(term.endDate)}` : ''}
                       </div>
                       <div style={{ flex: '1' }}></div>

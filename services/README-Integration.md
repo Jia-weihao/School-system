@@ -6,7 +6,7 @@ npm install
 npm start
 ```
 
-后端将在 `http://localhost:3000` 启动
+后端将在 `https://school.blxg.asia` 启动
 
 ### 2. 添加测试数据（可选）
 

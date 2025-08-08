@@ -28,7 +28,6 @@ export default function SubjectConfig() {
   const getSubject = async () => {
     const res = await axios.get(`${API_BASE_URL}/api/configuration/getSubject`);
     setSubjectList((res.data as any).data);
-    // console.log((res.data as any).data)
   }
 
   const getSystem = async () => {

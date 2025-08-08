@@ -18,7 +18,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="zh">
-      <body className={inter.className} suppressHydrationWarning={true}>
+      <body className={inter.className}>
         <AuthProvider>
           {children}
         </AuthProvider>

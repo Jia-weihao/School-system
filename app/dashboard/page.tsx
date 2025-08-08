@@ -81,6 +81,7 @@ export default function Dashboard() {
         { name: '资源类型管理', roles: ['principal', 'academic_director', 'academic_staff', 'teaching_director', 'teacher'] }
       ]
     },
+    //scc
     {
       name: '走班排课',
       icon: '🚶‍♂️',

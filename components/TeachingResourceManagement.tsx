@@ -65,13 +65,9 @@ const TeachingResourceManagement: React.FC = () => {
       const resourceTypesRes = await getResourceTypes();
       console.log('资源类型响应:', resourceTypesRes);
 
-      // 安全处理响应数据，从list中提取
-      const responseData = resourceTypesRes?.data || resourceTypesRes;
-      const list = responseData?.list || [];
-
-      if (Array.isArray(list)) {
-        setMainResourceTypes(list);
-        console.log('设置资源类型成功:', list);
+      if (resourceTypesRes?.success && Array.isArray(resourceTypesRes.data)) {
+        setMainResourceTypes(resourceTypesRes.data);
+        console.log('设置资源类型成功:', resourceTypesRes.data);
       } else {
         console.warn('资源类型数据格式异常:', resourceTypesRes);
         setMainResourceTypes([]);

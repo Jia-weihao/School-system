@@ -361,7 +361,7 @@ export default function Teachers() {
           </thead>
           <tbody>
             {teacherList.map((item, index) => (
-              <tr key={item._id}>
+              <tr key={index}>
                 <td>{index + 1}</td>
                 <td>{item.name}</td>
                 <td>{item.sex}</td>

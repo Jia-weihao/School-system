@@ -140,15 +140,15 @@ export default function Information() {
                   <td>学校地址</td>
                   <td>{school.addrress}</td>
                 </tr>
-                <tr key="contact-person">
+                <tr>
                   <td>学校联系人</td>
                   <td>{school.person}</td>
                 </tr>
-                <tr key="contact-phone">
+                <tr>
                   <td>联系方式</td>
                   <td>{school.phone}</td>
                 </tr>
-                <tr key="edit-button">
+                <tr>
                   <td>
                     <button
                       style={{ padding: '10px 15px', borderRadius: '5px', backgroundColor: 'rgb(0, 0, 255)' }}

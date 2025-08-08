@@ -1,3 +1,4 @@
-const api = "https://school.blxg.asia";
+const API_BASE_URL = "https://school.blxg.asia" 
 
-export default api;
+
+export default API_BASE_URL;

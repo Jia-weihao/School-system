@@ -1,6 +1,5 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
-import API_BASE_URL from '../tools/api';
 import styles from './correct.module.css';
 import ButtonPermission from '../../components/ButtonPermission';
 import * as echarts from 'echarts';
@@ -435,7 +434,7 @@ const handleImportData = () => {
                   return;
                 }
 
-                const response = await fetch(`${API_BASE_URL}/api/students/batch`, {
+                const response = await fetch(`https://school.blxg.asia/api/students/batch`, {
                   method: 'POST',
                   headers: {
                     'Content-Type': 'application/json',

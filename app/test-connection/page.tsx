@@ -1,8 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import API_BASE_URL from '../tools/api';
-
+import API_BASE_URL from '@/app/tools/api';
 
 const TestConnectionPage: React.FC = () => {
   const [result, setResult] = useState<string>('');

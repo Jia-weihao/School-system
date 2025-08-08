@@ -1,7 +1,7 @@
 import axios, { AxiosProgressEvent } from 'axios';
 
 // API 基础 URL - 使用127.0.0.1替代localhost
-const API_BASE_URL = 'http://127.0.0.1:3000';
+const API_BASE_URL = 'https://school.blxg.asia';
 
 // 创建axios实例
 const axiosInstance = axios.create({
@@ -165,6 +165,10 @@ export interface TeachingResource {
 }
 
 export interface ExtracurricularResource {
+  uploadDate: string;
+  approvalStatusId: any;
+  mainTypeId: any;
+  resourceName: string;
   _id: string;
   name: string;
   description: string;

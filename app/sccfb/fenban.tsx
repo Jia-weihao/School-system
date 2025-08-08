@@ -1,7 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react'
-import API_BASE_URL from '../tools/api';
+import React, { useState, useEffect } from 'react';
 import Startfenban from './startfenban';
 
 // 后端学生数据结构
@@ -59,7 +58,7 @@ export default function Fenban() {
       setLoading(true);
       setError(null);
       
-      const response = await fetch(`${API_BASE_URL}/api/students`);
+      const response = await fetch('https://school.blxg.asia/api/students');
       
       if (!response.ok) {
         throw new Error(`HTTP错误: ${response.status}`);
@@ -271,7 +270,7 @@ export default function Fenban() {
             animation: 'spin 1s linear infinite',
             margin: '0 auto 16px'
           }} />
-          <p style={{ color: '#6b7280' }}>正在从后端加载学生成绩数据...</p>
+          <p style={{ color: '#374151' }}>正在从后端加载学生成绩数据...</p>
         </div>
         <style>{`
           @keyframes spin {
@@ -485,7 +484,7 @@ export default function Fenban() {
           <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#374151' }}>
             {unassignedCount}
           </div>
-          <div style={{ fontSize: '12px', color: '#6b7280' }}>待分班</div>
+          <div style={{ fontSize: '12px', color: '#4b5563' }}>待分班</div>
         </div>
         
         <div style={{
@@ -622,25 +621,25 @@ export default function Fenban() {
                       {student.ranking}
                     </span>
                   </td>
-                  <td style={{ padding: '12px', border: '1px solid #e5e7eb' }}>{student.name}</td>
-                  <td style={{ padding: '12px', border: '1px solid #e5e7eb' }}>{student.studentId}</td>
-                  <td style={{ padding: '12px', border: '1px solid #e5e7eb' }}>{student.class}</td>
-                  <td style={{ padding: '12px', border: '1px solid #e5e7eb', textAlign: 'center' }}>
+                  <td style={{ padding: '12px', border: '1px solid #e5e7eb', color: '#374151' }}>{student.name}</td>
+                  <td style={{ padding: '12px', border: '1px solid #e5e7eb', color: '#374151' }}>{student.studentId}</td>
+                  <td style={{ padding: '12px', border: '1px solid #e5e7eb', color: '#374151' }}>{student.class}</td>
+                  <td style={{ padding: '12px', border: '1px solid #e5e7eb', textAlign: 'center', color: '#374151' }}>
                     {getSubjectScore(student, 'chinese')}
                   </td>
-                  <td style={{ padding: '12px', border: '1px solid #e5e7eb', textAlign: 'center' }}>
+                  <td style={{ padding: '12px', border: '1px solid #e5e7eb', textAlign: 'center', color: '#374151' }}>
                     {getSubjectScore(student, 'math')}
                   </td>
-                  <td style={{ padding: '12px', border: '1px solid #e5e7eb', textAlign: 'center' }}>
+                  <td style={{ padding: '12px', border: '1px solid #e5e7eb', textAlign: 'center', color: '#374151' }}>
                     {getSubjectScore(student, 'english')}
                   </td>
-                  <td style={{ padding: '12px', border: '1px solid #e5e7eb', textAlign: 'center' }}>
+                  <td style={{ padding: '12px', border: '1px solid #e5e7eb', textAlign: 'center', color: '#374151' }}>
                     {getSubjectScore(student, 'physics')}
                   </td>
-                  <td style={{ padding: '12px', border: '1px solid #e5e7eb', textAlign: 'center' }}>
+                  <td style={{ padding: '12px', border: '1px solid #e5e7eb', textAlign: 'center', color: '#374151' }}>
                     {getSubjectScore(student, 'chemistry')}
                   </td>
-                  <td style={{ padding: '12px', border: '1px solid #e5e7eb', textAlign: 'center' }}>
+                  <td style={{ padding: '12px', border: '1px solid #e5e7eb', textAlign: 'center', color: '#374151' }}>
                     {getSubjectScore(student, 'biology')}
                   </td>
                   <td style={{ 
@@ -673,7 +672,7 @@ export default function Fenban() {
                         {student.groupType === 'key' ? '重点班' : '平行班'}
                       </span>
                     ) : (
-                      <span style={{ color: '#9ca3af', fontSize: '12px' }}>未分班</span>
+                      <span style={{ color: '#4b5563', fontSize: '12px' }}>未分班</span>
                     )}
                   </td>
                 </tr>
@@ -690,7 +689,7 @@ export default function Fenban() {
         alignItems: 'center',
         marginTop: '20px'
       }}>
-        <div style={{ fontSize: '14px', color: '#6b7280' }}>
+        <div style={{ fontSize: '14px', color: '#4b5563' }}>
           共 {filteredStudents.length} 条，已选择 {selectedStudents.length} 条
         </div>
         
@@ -812,7 +811,7 @@ export default function Fenban() {
               <div style={{ fontSize: '14px', fontWeight: '500', marginBottom: '8px', color: '#374151' }}>
                 选中的学生：
               </div>
-              <div style={{ fontSize: '13px', color: '#6b7280' }}>
+              <div style={{ fontSize: '13px', color: '#4b5563' }}>
                 {selectedStudents.map(studentId => {
                   const student = students.find(s => s.id === studentId);
                   return student ? `${student.name}(${student.totalScore}分)` : '';

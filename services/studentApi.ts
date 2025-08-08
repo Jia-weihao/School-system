@@ -1,5 +1,5 @@
 // 学生数据接口
-import API_BASE_URL from '../app/tools/api';
+import API_BASE_URL from '@/app/tools/api';
 
 export interface StudentData {
   id: string;

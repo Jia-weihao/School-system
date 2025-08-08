@@ -1,11 +1,10 @@
-import lessonStyles from './lessonConfig.module.css';
+import styles from './lessonConfig.module.css';
 import { useEffect, useState } from 'react';
 import { Input, Button, message, Switch, Table, Modal } from 'antd';
 import axios from 'axios';
 import API_BASE_URL from '../tools/api';
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
-import styles from './lessonConfig.module.css';
 const { Search } = Input;
 
 // Tiptap编辑器组件
@@ -30,63 +29,58 @@ const TiptapEditor = ({ content, onUpdate }: { content: string, onUpdate: (html:
   return (
     <div style={{ border: '1px solid #d9d9d9', borderRadius: '4px', minHeight: '300px' }}>
       <div style={{ borderBottom: '1px solid #d9d9d9', padding: '8px', display: 'flex', gap: '10px' }}>
-          <button
-            onClick={() => editor?.chain().focus().toggleBold().run()}
-            style={{ 
-              fontWeight: editor?.isActive('bold') ? 'bold' : 'normal',
-              border: 'none',
-              background: 'none',
-              cursor: 'pointer',
-              color: '#333'
-            }}
-          >
-            B
-          </button>
-          <button
-            onClick={() => editor?.chain().focus().toggleItalic().run()}
-            style={{ 
-              fontStyle: editor?.isActive('italic') ? 'italic' : 'normal',
-              border: 'none',
-              background: 'none',
-              cursor: 'pointer',
-              color: '#333'
-            }}
-          >
-            I
-          </button>
-          <button
-            onClick={() => editor?.chain().focus().toggleBulletList().run()}
-            style={{ 
-              border: 'none',
-              background: editor?.isActive('bulletList') ? '#f0f0f0' : 'none',
-              cursor: 'pointer',
-              color: '#333'
-            }}
-          >
-            • 列表
-          </button>
-          <button
-            onClick={() => editor?.chain().focus().toggleOrderedList().run()}
-            style={{ 
-              border: 'none',
-              background: editor?.isActive('orderedList') ? '#f0f0f0' : 'none',
-              cursor: 'pointer',
-              color: '#333'
-            }}
-          >
-            1. 有序列表
-          </button>
-          <button
-            onClick={() => editor?.chain().focus().toggleBlockquote().run()}
-            style={{ 
-              border: 'none',
-              background: editor?.isActive('blockquote') ? '#f0f0f0' : 'none',
-              cursor: 'pointer',
-              color: '#333'
-            }}
-          >
-            引用
-          </button>
+        <button
+          onClick={() => editor?.chain().focus().toggleBold().run()}
+          style={{
+            fontWeight: editor?.isActive('bold') ? 'bold' : 'normal',
+            border: 'none',
+            background: 'none',
+            cursor: 'pointer'
+          }}
+        >
+          B
+        </button>
+        <button
+          onClick={() => editor?.chain().focus().toggleItalic().run()}
+          style={{
+            fontStyle: editor?.isActive('italic') ? 'italic' : 'normal',
+            border: 'none',
+            background: 'none',
+            cursor: 'pointer'
+          }}
+        >
+          I
+        </button>
+        <button
+          onClick={() => editor?.chain().focus().toggleBulletList().run()}
+          style={{
+            border: 'none',
+            background: editor?.isActive('bulletList') ? '#f0f0f0' : 'none',
+            cursor: 'pointer'
+          }}
+        >
+          • 列表
+        </button>
+        <button
+          onClick={() => editor?.chain().focus().toggleOrderedList().run()}
+          style={{
+            border: 'none',
+            background: editor?.isActive('orderedList') ? '#f0f0f0' : 'none',
+            cursor: 'pointer'
+          }}
+        >
+          1. 有序列表
+        </button>
+        <button
+          onClick={() => editor?.chain().focus().toggleBlockquote().run()}
+          style={{
+            border: 'none',
+            background: editor?.isActive('blockquote') ? '#f0f0f0' : 'none',
+            cursor: 'pointer'
+          }}
+        >
+          引用
+        </button>
       </div>
       <div style={{ padding: '10px', maxHeight: '400px', overflowY: 'auto' }}>
         <EditorContent editor={editor} style={{ outline: 'none', border: 'none', boxShadow: 'none' }} />
@@ -321,7 +315,7 @@ export default function LessonConfig() {
 
       {!isAdd ? <div>
         {/* 搜索框 */}
-        <div className={lessonStyles.title}>
+        <div className={styles.title}>
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <span style={{ marginRight: 10 }}>教案</span>
             <Search
@@ -336,7 +330,7 @@ export default function LessonConfig() {
         </div>
 
         {/* 表格数据 */}
-        <div className={lessonStyles.container}>
+        <div className={styles.container}>
           <div
             style={{ cursor: 'pointer', color: '#1890FF', display: 'flex', alignItems: 'center' }}
             onClick={() => setIsAdd(true)}>
@@ -345,11 +339,11 @@ export default function LessonConfig() {
           <Table
             dataSource={lessonList}
             columns={columns}
-            rowKey="_id"
+            rowKey="id"
             pagination={{ pageSize: 5 }}
           />
         </div>
-资源类型
+
         {/* 删除确认对话框 */}
         <Modal
           title="确认删除"
@@ -371,16 +365,16 @@ export default function LessonConfig() {
           ]}
           width={800}
         >
-          <div className={lessonStyles.previewContainer}>
-            <div className={lessonStyles.previewTitle}>{currentRecord?.name}</div>
-            <div className={lessonStyles.previewContent}>
-              <div className={lessonStyles.previewSection}>
+          <div className={styles.previewContainer}>
+            <div className={styles.previewTitle}>{currentRecord?.name}</div>
+            <div className={styles.previewContent}>
+              <div className={styles.previewSection}>
                 <div>[学情分析]</div>
                 <div>(说明学生学习习惯知识之前已经具备的知识结构和学生学习习惯的个性差异)</div>
                 <div>[单元重点]</div>
               </div>
 
-              <div className={lessonStyles.previewSection}>
+              <div className={styles.previewSection}>
                 <div>[教学目标]</div>
                 <div>(说教教学要求，即说明本课时所要完成的教学任务，是一篇教材教学的行动纲要，要写得具体、明确)</div>
                 <div>• 知识、资源</div>
@@ -390,12 +384,12 @@ export default function LessonConfig() {
                 <div>(说明本所必须解决的关键性问题，是教材中为了达到教学目标而有重指导意义的内容)</div>
               </div>
 
-              <div className={lessonStyles.previewSection}>
+              <div className={styles.previewSection}>
                 <div>[教法]</div>
               </div>
             </div>
 
-            <div className={lessonStyles.previewActualContent} dangerouslySetInnerHTML={{ __html: currentRecord?.content || '' }}></div>
+            <div className={styles.previewActualContent} dangerouslySetInnerHTML={{ __html: currentRecord?.content || '' }}></div>
           </div>
         </Modal>
 
@@ -437,6 +431,7 @@ export default function LessonConfig() {
             </div>
             <div>
               <div style={{ marginBottom: '8px' }}>编辑教案模板:</div>
+              <div>{editorContent}</div>
               <TiptapEditor
                 content={editorContent}
                 onUpdate={(html) => setEditorContent(html)}
@@ -447,7 +442,7 @@ export default function LessonConfig() {
       </div>
         : <div>
           {/* 添加教案页面 */}
-          <div className={lessonStyles.addContent}>
+          <div className={styles.addContent}>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
               <span style={{ fontSize: '16px', fontWeight: 'bold' }}>新增教学模板</span>
               <div>

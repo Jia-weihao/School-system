@@ -1,6 +1,7 @@
 'use client';
 import { useState, useImperativeHandle, forwardRef } from 'react';
-import API_BASE_URL from '../tools/api';
+import API_BASE_URL from '@/app/tools/api';
+
 import styles from './correct.module.css';
 import { updateStudent, deleteStudent, createStudent, StudentGrade } from '../../services/studentService';
 
