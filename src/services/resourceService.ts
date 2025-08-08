@@ -1,7 +1,7 @@
 import axios, { AxiosProgressEvent } from 'axios';
 
-// API 基础 URL - 使用127.0.0.1替代localhost
-const API_BASE_URL = 'https://school.blxg.asia';
+// 导入API基础URL
+import API_BASE_URL from '../../app/tools/api';
 
 // 创建axios实例
 const axiosInstance = axios.create({
@@ -9,7 +9,8 @@ const axiosInstance = axios.create({
   timeout: 30000,
   headers: {
     'Content-Type': 'application/json',
-  }
+  },
+  withCredentials: true
 });
 
 // 添加请求拦截器
