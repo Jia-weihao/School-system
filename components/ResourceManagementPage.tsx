@@ -4,8 +4,8 @@ import React, { useState } from 'react';
 import { Card, Form, Button, Modal, message } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import ResourceSearchForm from './ResourceSearchForm';
-import ResourceTable from './ResourceTable';
-import FileUpload from './FileUpload';
+import ResourceTablePanel from './ResourceTablePanel';
+
 import {
     createTeachingResource,
     createExtracurricularResource,
@@ -149,7 +149,7 @@ const ResourceManagementPage: React.FC<ResourceManagementPageProps> = ({
                 }
             >
                 {/* 资源表格 */}
-                <ResourceTable
+                <ResourceTablePanel
                     type={type}
                     searchParams={searchParams}
                     onEdit={handleEdit}
@@ -231,10 +231,10 @@ const ResourceManagementPage: React.FC<ResourceManagementPageProps> = ({
                 footer={null}
                 width={800}
             >
-                <FileUpload
-                    onSuccess={handleUploadSuccess}
-                    resourceType={type}
-                />
+// 先添加 FileUpload 组件的导入语句
+import FileUpload from './FileUpload';
+
+                
             </Modal>
         </div>
     );

@@ -1,12 +1,21 @@
 'use client';
 
 import React, { useState } from 'react';
+import { type TeachingResource, type ExtracurricularResource } from '../src/services/resourceService';
+
+interface ResourceTablePanelProps {
+  type: 'teaching' | 'extracurricular';
+  searchParams: any;
+  onEdit: (record: TeachingResource | ExtracurricularResource) => void;
+  onView: (record: TeachingResource | ExtracurricularResource) => void;
+}
+
 import { Form, Input, Select, Button, Row, Col, Table, Checkbox, Modal, message } from 'antd';
 import { UploadOutlined, ThunderboltOutlined } from '@ant-design/icons';
 import AddResourceForm from './AddResourceForm';
 import styles from './ResourceTablePanel.module.css';
 
-export default function ResourceTablePanel() {
+export default function ResourceTablePanel({ type, searchParams, onEdit, onView }: ResourceTablePanelProps) {
   const [form] = Form.useForm();
   const [showAddForm, setShowAddForm] = useState(false);
   const [tableData, setTableData] = useState([
@@ -362,4 +371,4 @@ export default function ResourceTablePanel() {
       </Modal>
     </>
   );
-} 
+}

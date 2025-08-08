@@ -357,26 +357,26 @@ export const getVolumes = async () => {
 };
 
 // 获取章节列表
-export const getChapters = async (params?: {
+  export const getChapters = async (subjectId: string | undefined, volumeId: string | undefined, params: {
   gradeId?: string;
   subjectId?: string;
   versionId?: string;
   volumeId?: string;
 }) => {
-  try {
-    const queryParams = new URLSearchParams();
-    if (params?.gradeId) queryParams.append('gradeId', params.gradeId);
-    if (params?.subjectId) queryParams.append('subjectId', params.subjectId);
-    if (params?.versionId) queryParams.append('versionId', params.versionId);
-    if (params?.volumeId) queryParams.append('volumeId', params.volumeId);
+    try {
+      const queryParams = new URLSearchParams();
+      if (params?.gradeId) queryParams.append('gradeId', params.gradeId);
+      if (params?.subjectId) queryParams.append('subjectId', params.subjectId);
+      if (params?.versionId) queryParams.append('versionId', params.versionId);
+      if (params?.volumeId) queryParams.append('volumeId', params.volumeId);
 
-    const response = await axiosInstance.get(`/api/resource/chapters?${queryParams}`);
-    return response.data;
-  } catch (error) {
-    console.error('获取章节列表失败:', error);
-    throw error;
-  }
-};
+      const response = await axiosInstance.get(`/api/resource/chapters?${queryParams}`);
+      return response.data;
+    } catch (error) {
+      console.error('获取章节列表失败:', error);
+      throw error;
+    }
+  };
 
 // 获取教学资源列表
 export const getTeachingResources = async (params: {

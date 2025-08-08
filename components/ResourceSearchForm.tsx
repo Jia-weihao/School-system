@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Form, Input, Select, DatePicker, Button, Row, Col, Space } from 'antd';
+import { Form, Input, Select, DatePicker, Button, Row, Col, Space, message } from 'antd';
 import { SearchOutlined, ReloadOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
 import 'dayjs/locale/zh-cn';
@@ -24,9 +24,10 @@ import {
   type TextbookVersion,
   type Volume,
   type AuditStatus,
-  type TargetAudience,
-  type DifficultyLevel
-} from '../src/services/resourceService';
+  ResourceType,
+  Chapter,
+  getResourceTypes,
+  getChapters} from '../src/services/resourceService';
 
 const { Option } = Select;
 const { RangePicker } = DatePicker;
@@ -117,7 +118,7 @@ const ResourceSearchForm: React.FC<ResourceSearchFormProps> = ({
 
   const loadChapters = async (subjectId?: string, volumeId?: string) => {
     try {
-      const response = await getChapters(subjectId, volumeId);
+      const response = await getChapters(subjectId, volumeId, {});
       if (response.success) {
         setChapters(response.data);
       }

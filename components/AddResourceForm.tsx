@@ -34,11 +34,13 @@ interface FormValues {
 interface AddResourceFormProps {
     onSubmit?: (data: FormValues) => void;
     onBack?: () => void;
+    onCancel?: () => void;
 }
 
 const AddResourceForm: React.FC<AddResourceFormProps> = ({
     onSubmit,
-    onBack
+    onBack,
+    onCancel
 }) => {
     const [form] = Form.useForm<FormValues>();
     const [loading, setLoading] = useState(false);
@@ -247,7 +249,7 @@ const AddResourceForm: React.FC<AddResourceFormProps> = ({
             });
 
             try {
-                const chaptersRes = await getChapters({
+                const chaptersRes = await getChapters(subject, volume, {
                     gradeId: grade,
                     subjectId: subject,
                     versionId: version,
@@ -631,10 +633,10 @@ const AddResourceForm: React.FC<AddResourceFormProps> = ({
                         <Col span={24} style={{ textAlign: 'center', marginTop: '20px' }}>
                             <Button
                                 type="default"
-                                onClick={onBack}
+                                onClick={onCancel || onBack}
                                 style={{ marginRight: '10px' }}
                             >
-                                <ArrowLeftOutlined /> 返回
+                                <ArrowLeftOutlined /> 取消
                             </Button>
                             <Button
                                 type="primary"
