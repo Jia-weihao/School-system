@@ -65,11 +65,20 @@ const TeachingResourceManagement: React.FC = () => {
       const resourceTypesRes = await getResourceTypes();
       console.log('资源类型响应:', resourceTypesRes);
 
-      if (resourceTypesRes?.success && Array.isArray(resourceTypesRes.data)) {
-        setMainResourceTypes(resourceTypesRes.data);
-        console.log('设置资源类型成功:', resourceTypesRes.data);
+      // 支持两种数据格式: {success: true, data: [...]} 或 {success: true, data: {list: [...]}}
+      if (resourceTypesRes?.success) {
+        if (Array.isArray(resourceTypesRes.data)) {
+          setMainResourceTypes(resourceTypesRes.data);
+          console.log('设置资源类型成功(直接数组格式):', resourceTypesRes.data);
+        } else if (resourceTypesRes.data && Array.isArray(resourceTypesRes.data.list)) {
+          setMainResourceTypes(resourceTypesRes.data.list);
+          console.log('设置资源类型成功(包含list字段):', resourceTypesRes.data.list);
+        } else {
+          console.warn('资源类型数据格式异常:', resourceTypesRes);
+          setMainResourceTypes([]);
+        }
       } else {
-        console.warn('资源类型数据格式异常:', resourceTypesRes);
+        console.warn('资源类型请求失败:', resourceTypesRes);
         setMainResourceTypes([]);
       }
 
@@ -549,10 +558,19 @@ const TeachingResourceManagement: React.FC = () => {
           </Col>
           <Col span={8}>
             <Form.Item label="资源类型" name="resourceType">
-              <Select placeholder="教案" style={{ width: '100%' }}>
-                {Array.isArray(mainResourceTypes) && mainResourceTypes.map(type => (
-                  <Option key={type._id} value={type._id}>{type.name}</Option>
-                ))}
+              <Select placeholder="请选择资源类型" style={{ width: '100%' }}>
+ 
+                {Array.isArray(mainResourceTypes) ? (
+                  mainResourceTypes.length > 0 ? (
+                    mainResourceTypes.map(type => (
+                      <Option key={type._id} value={type._id}>{type.name}</Option>
+                    ))
+                  ) : (
+                    <Option value="">暂无数据</Option>
+                  )
+                ) : (
+                  <Option value="">数据加载中...</Option>
+                )}
               </Select>
             </Form.Item>
           </Col>

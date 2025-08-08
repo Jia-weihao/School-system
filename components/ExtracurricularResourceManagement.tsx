@@ -54,12 +54,22 @@ const ExtracurricularResourceManagement: React.FC = () => {
       const resourceTypesRes = await getResourceTypes();
       console.log('资源类型响应:', resourceTypesRes);
 
-      // 后端返回格式: { success: true, message: '...', data: [...] }
-      if (resourceTypesRes?.success && Array.isArray(resourceTypesRes.data)) {
-        setResourceTypes(resourceTypesRes.data);
-        console.log('设置资源类型成功:', resourceTypesRes.data);
+      // 后端可能返回两种格式: 
+      // 1. { success: true, message: '...', data: [...] }
+      // 2. { success: true, message: '...', data: { list: [...] } }
+      if (resourceTypesRes?.success) {
+        if (Array.isArray(resourceTypesRes.data)) {
+          setResourceTypes(resourceTypesRes.data);
+          console.log('设置资源类型成功(数组格式):', resourceTypesRes.data);
+        } else if (resourceTypesRes.data && Array.isArray(resourceTypesRes.data.list)) {
+          setResourceTypes(resourceTypesRes.data.list);
+          console.log('设置资源类型成功(对象包含list格式):', resourceTypesRes.data.list);
+        } else {
+          console.warn('资源类型数据格式异常:', resourceTypesRes);
+          setResourceTypes([]);
+        }
       } else {
-        console.warn('资源类型数据格式异常:', resourceTypesRes);
+        console.warn('资源类型请求失败:', resourceTypesRes);
         setResourceTypes([]);
       }
 
